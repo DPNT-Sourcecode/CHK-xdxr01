@@ -16,16 +16,17 @@ def get_free_items(sku):
         return None
 
 def get_offers(item):
-    all_offers = {}
     if 'offer' in INVENTORY[item]:
-        for item in INVENTORY[item]['offer']:
-            all_offers.update(item)
-    return all_offers
+        return INVENTORY[item]['offer']
+    else:
+        return None
 
 def get_price(item, quantity, offers):
     final_cost = 0
     if offers:
-        for key in sorted(offers.keys()):
+        import pdb;  pdb.set_trace()
+        from operator import itemgetter
+        for key in sorted(offers, key=itemgetter('cnt')):
             bulk_offer_count = quantity//int(key)
             bulk_offer_cost = bulk_offer_count * offers[key]
             quantity = quantity%offers[int(key)]
@@ -35,7 +36,6 @@ def get_price(item, quantity, offers):
     return final_cost
 
 def adjust_free_skus(cart):
-    import pdb; pdb.set_trace()
     final_cart = cart
     for sku in cart:
         free = get_free_items(sku)
@@ -57,7 +57,6 @@ def checkout(skus):
     total_price = 0
     cart = Counter(skus)
     cart = adjust_free_skus(cart)
-
     for item in cart:
         quantity = cart[item]
         offers = get_offers(item)
@@ -65,4 +64,5 @@ def checkout(skus):
         total_price += item_price
 
     return total_price
+
 
