@@ -2,7 +2,7 @@
 from collections import Counter
 
 INVENTORY = {
-    'A': {'price': 50, 'offer': {'cnt': 3, 'price': 120}},
+    'A': {'price': 50, 'offer': {'cnt': 3, 'price': 130}},
     'B': {'price': 30, 'offer': {'cnt': 2, 'price': 45}},
     'C': {'price': 20},
     'D': {'price': 15}
@@ -26,8 +26,6 @@ def get_price(item, quantity, offer):
     return final_cost
 
 def checkout(skus):
-    if len(skus) == 0:
-        return -1
     #check for invalid sku
     for sku in skus:
         if sku not in INVENTORY:
@@ -42,5 +40,6 @@ def checkout(skus):
         total_price += item_price
 
     return total_price
+
 
 
