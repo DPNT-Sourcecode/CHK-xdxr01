@@ -24,7 +24,6 @@ def checkout(skus):
     for item in skus:
         itemcount[item] += 1
 
-    import pdb; pdb.set_trace()
     for item in itemcount:
         offercount = itemcount[item]//OFFERED_QUANTITY[item]
         nooffercount = itemcount[item]%OFFERED_QUANTITY[item]
@@ -32,6 +31,7 @@ def checkout(skus):
         total_price += sameitems_price
 
     return total_price
+
 
 
 
