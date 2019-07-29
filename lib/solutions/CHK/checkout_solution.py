@@ -26,9 +26,9 @@ def get_price(item, quantity, offers):
     final_cost = 0
     if offers:
         for key in sorted(offers.keys()):
-            bulk_offer_count = quantity//key
+            bulk_offer_count = quantity//int(key)
             bulk_offer_cost = bulk_offer_count * offers[key]
-            quantity = quantity%offers[key]
+            quantity = quantity%offers[int(key)]
             final_cost += bulk_offer_cost
     no_offer_cost = quantity * INVENTORY[item]['price']
     final_cost += no_offer_cost
@@ -64,4 +64,5 @@ def checkout(skus):
         total_price += item_price
 
     return total_price
+
 
