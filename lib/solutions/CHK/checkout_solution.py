@@ -3,7 +3,7 @@ from collections import Counter
 
 INVENTORY = {
     'A': {'price': 50, 'offer': [{'cnt': 3, 'price': 130}, {'cnt': 5, 'price': 200}]},
-    'B': {'price': 30, 'offer': {'cnt': 2, 'price': 45}, 'free': {'sku': 'E', 'cnt': 2}},
+    'B': {'price': 30, 'offer': {'cnt': 2, 'price': 45}},
     'C': {'price': 20},
     'D': {'price': 15},
     'E': {'price': 40}
@@ -40,6 +40,7 @@ def adjust_free_skus(cart):
         free = get_free_items(sku)
         if free:
             other_sku = free['sku']
+            import pdb; pdb.set_trace()
             other_sku_offer_cnt = free['cnt']
             if other_sku in cart:
                 other_sku_cart_cnt = cart[other_sku]
@@ -64,5 +65,6 @@ def checkout(skus):
         total_price += item_price
 
     return total_price
+
 
 
