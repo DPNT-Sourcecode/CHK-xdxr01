@@ -26,7 +26,6 @@ def get_offers(item):
 def get_price(item, quantity, offers):
     final_cost = 0
     if offers:
-
         for key in sorted(offers, key=itemgetter('cnt'), reverse = True):
             bulk_offer_count = quantity//key['cnt']
             bulk_offer_cost = bulk_offer_count * key['price']
@@ -45,8 +44,15 @@ def adjust_free_skus(cart):
             other_sku_offer_cnt = free['cnt']
             if other_sku in cart:
                 other_sku_cart_cnt = cart[other_sku]
-                this_sku_free_cnt = other_sku_cart_cnt//other_sku_offer_cnt
-                final_cart[sku] -= this_sku_free_cnt
+                # check for quantity for free offer on same sku
+                if other_sku == sku:
+                    group_count = other_sku_offer_cnt+1
+                    group_eligible =  other_sku_cart_cnt // group_count
+                    #standalone_count = other_sku_cart_cnt % group_count
+                    final_cart[sku] -= group_eligible
+                else:
+                    this_sku_free_cnt = other_sku_cart_cnt // other_sku_offer_cnt
+                    final_cart[sku] -= this_sku_free_cnt
     return final_cart
 
 def checkout(skus):
@@ -65,4 +71,5 @@ def checkout(skus):
         total_price += item_price
 
     return total_price
+
 
