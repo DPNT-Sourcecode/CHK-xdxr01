@@ -11,11 +11,13 @@ def get_price(item, offercount, nooffercount):
 # noinspection PyUnusedLocal
 # skus = unicode string
 def checkout(skus):
+    if len(skus) == 0:
+        return -1
     #check for invalid sku
     for sku in skus:
         if sku not in PRICES:
             return -1
-
+    import pdb; pdb.set_trace()
     total_price = 0
     itemcount = Counter()
 
@@ -31,6 +33,7 @@ def checkout(skus):
         total_price += sameitems_price
 
     return total_price
+
 
 
 
