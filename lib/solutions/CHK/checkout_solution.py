@@ -13,6 +13,7 @@ def get_price(item, offercount, nooffercount):
 def checkout(skus):
     total_price = 0
     itemcount = defaultdict(int)
+    
     for item in skus:
         if item in product_list:
             itemcount[item] += 1
@@ -25,6 +26,7 @@ def checkout(skus):
         total_price += sameitems_price
 
     return total_price
+
 
 
 
