@@ -4,7 +4,7 @@ from operator import itemgetter
 
 INVENTORY = {
     'A': {'price': 50, 'offer': [{'cnt': 3, 'price': 130}, {'cnt': 5, 'price': 200}]},
-    'B': {'price': 30, 'offer': {'cnt': 2, 'price': 45}, 'free': {'sku': 'E', 'cnt': 2}},
+    'B': {'price': 30, 'offer': [{'cnt': 2, 'price': 45}], 'free': {'sku': 'E', 'cnt': 2}},
     'C': {'price': 20},
     'D': {'price': 15},
     'E': {'price': 40}
@@ -25,7 +25,7 @@ def get_offers(item):
 def get_price(item, quantity, offers):
     final_cost = 0
     if offers:
-        #import pdb;  pdb.set_trace()
+
         for key in sorted(offers, key=itemgetter('cnt'), reverse = True):
             bulk_offer_count = quantity//key['cnt']
             bulk_offer_cost = bulk_offer_count * key['price']
@@ -64,5 +64,3 @@ def checkout(skus):
         total_price += item_price
 
     return total_price
-
-print(checkout('B'))
