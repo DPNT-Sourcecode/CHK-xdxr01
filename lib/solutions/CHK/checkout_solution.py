@@ -104,7 +104,7 @@ def checkout(skus):
     for k in GROUP_SKUS:
         if k in cart:
             mix_cart[k]=cart[k]
-            del cart[k]
+    
     cart = adjust_free_skus(cart)
     for item in cart:
         quantity = cart[item]
@@ -115,5 +115,6 @@ def checkout(skus):
     total_price += get_mix_offer_price(mix_cart)
 
     return total_price
+
 
 
