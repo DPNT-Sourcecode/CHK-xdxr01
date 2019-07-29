@@ -5,11 +5,13 @@ product_price = {'A':50, 'B':30, 'C':20, 'D':15}
 offered_quantity = {'A':3, 'B':2}
 offered_price = {'A':130, 'B':45}
 
+def get_price(item, offercount, nooffercount):
+    return nooffercount*product_price[item] + offercount*offered_price[item]
+
 
 # noinspection PyUnusedLocal
 # skus = unicode string
 def checkout(skus):
-
     total_price = 0
     itemcount = {}
     for item in skus:
@@ -20,15 +22,10 @@ def checkout(skus):
     for item in itemcount.keys():
         offercount = itemcount//offered_quantity[item]
         nooffercount = itemcount%offered_quantity[item]
+        sameitems_price = get_price(item, offercount, nooffercount)
+        total_price += sameitems_price
 
-
-
-
-        if item in product_list:
-            total_price = total_price+product_price[item]
-
-
-
+    return total_price
 
 
 
