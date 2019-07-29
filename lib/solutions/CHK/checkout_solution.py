@@ -1,6 +1,34 @@
 
 
+product_list = ['A', 'B', 'C', 'D']
+product_price = {'A':50, 'B':30, 'C':20, 'D':15}
+offered_quantity = {'A':3, 'B':2}
+offered_price = {'A':130, 'B':45}
+
+
 # noinspection PyUnusedLocal
 # skus = unicode string
 def checkout(skus):
-    raise NotImplementedError()
+
+    total_price = 0
+    itemcount = {}
+    for item in skus:
+        if item in product_list:
+            itemcount[item] += 1
+        else:
+            return -1
+    for item in itemcount.keys():
+        offercount = itemcount//offered_quantity[item]
+        nooffercount = itemcount%offered_quantity[item]
+
+
+
+
+        if item in product_list:
+            total_price = total_price+product_price[item]
+
+
+
+
+
+
