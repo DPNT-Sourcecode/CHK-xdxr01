@@ -1,5 +1,6 @@
 
 from collections import Counter
+from operator import itemgetter
 
 INVENTORY = {
     'A': {'price': 50, 'offer': [{'cnt': 3, 'price': 130}, {'cnt': 5, 'price': 200}]},
@@ -25,8 +26,7 @@ def get_price(item, quantity, offers):
     final_cost = 0
     if offers:
         import pdb;  pdb.set_trace()
-        from operator import itemgetter
-        for key in sorted(offers, key=itemgetter('cnt')):
+        for key in sorted(offers, key=itemgetter('cnt'), reverse = True):
             bulk_offer_count = quantity//int(key)
             bulk_offer_cost = bulk_offer_count * offers[key]
             quantity = quantity%offers[int(key)]
@@ -64,5 +64,6 @@ def checkout(skus):
         total_price += item_price
 
     return total_price
+
 
 
