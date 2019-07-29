@@ -13,7 +13,7 @@ INVENTORY = {
     'H': {'price': 10, 'offer': [{'cnt': 5, 'price': 45}, {'cnt': 10, 'price': 80}]},
     'I': {'price': 35},
     'J': {'price': 60},
-    'K': {'price': 80, 'offer': [{'cnt': 2, 'price': 150}]},
+    'K': {'price': 70, 'offer': [{'cnt': 2, 'price': 120}]},
     'L': {'price': 90},
     'M': {'price': 15, 'free': {'sku': 'N', 'cnt': 3}},
     'N': {'price': 40},
@@ -21,25 +21,29 @@ INVENTORY = {
     'P': {'price': 50, 'offer': [{'cnt': 5, 'price': 200}]},
     'Q': {'price': 30, 'offer': [{'cnt': 3, 'price': 80}], 'free': {'sku': 'R', 'cnt': 3}},
     'R': {'price': 50},
-    'S': {'price': 30},
+    'S': {'price': 20},
     'T': {'price': 20},
     'U': {'price': 40, 'free': {'sku': 'U', 'cnt': 3}},
     'V': {'price': 50, 'offer': [{'cnt': 2, 'price': 90}, {'cnt': 3, 'price': 130}]},
     'W': {'price': 20},
-    'X': {'price': 90},
-    'Y': {'price': 10},
-    'Z': {'price': 50}
-
-
-
-
-
-
-
-
-
+    'X': {'price': 17},
+    'Y': {'price': 20},
+    'Z': {'price': 21}
 
 }
+
+GROUP_SKUS = ['S', 'T', 'X', 'Y', 'Z']
+
+def get_mix_offer_price(mix_cart):
+    total_count = 0
+    for item in mix_cart:
+        for v in mix_cart.values():
+            total_count += v
+    mix_offer_cnt = total_count//3
+    no_offer =  total_count%3
+    mix_price = mix_offer_cnt * 45
+    no_offer_price = no_offer * INVENTORY[item]['price']
+    return mix_price + no_offer_price
 
 def get_free_items(sku):
     if 'free' in INVENTORY[sku]:
@@ -68,22 +72,24 @@ def get_price(item, quantity, offers):
 def adjust_free_skus(cart):
     final_cart = cart
     for sku in cart:
-        free = get_free_items(sku)
-        if free:
-            other_sku = free['sku']
-            other_sku_offer_cnt = free['cnt']
-            if other_sku in cart:
-                other_sku_cart_cnt = cart[other_sku]
-                # check for quantity for free offer on same sku
-                if other_sku == sku:
-                    group_count = other_sku_offer_cnt+1
-                    group_eligible =  other_sku_cart_cnt // group_count
-                    #standalone_count = other_sku_cart_cnt % group_count
-                    final_cart[sku] -= group_eligible
-                else:
-                    this_sku_free_cnt = other_sku_cart_cnt // other_sku_offer_cnt
-                    final_cart[sku] -= this_sku_free_cnt
+        if sku not in GROUP_SKUS:
+            free = get_free_items(sku)
+            if free:
+                other_sku = free['sku']
+                other_sku_offer_cnt = free['cnt']
+                if other_sku in cart:
+                    other_sku_cart_cnt = cart[other_sku]
+                    # check for quantity for free offer on same sku
+                    if other_sku == sku:
+                        group_count = other_sku_offer_cnt+1
+                        group_eligible =  other_sku_cart_cnt // group_count
+                        #standalone_count = other_sku_cart_cnt % group_count
+                        final_cart[sku] -= group_eligible
+                    else:
+                        this_sku_free_cnt = other_sku_cart_cnt // other_sku_offer_cnt
+                        final_cart[sku] -= this_sku_free_cnt
     return final_cart
+
 
 def checkout(skus):
     #check for invalid sku
@@ -93,6 +99,12 @@ def checkout(skus):
 
     total_price = 0
     cart = Counter(skus)
+    #free the skus from the cart, which is part of group offer
+    mix_cart = {}
+    for k in GROUP_SKUS:
+        if k in cart:
+            mix_cart[k]=cart[k]
+            del cart[k]
     cart = adjust_free_skus(cart)
     for item in cart:
         quantity = cart[item]
@@ -100,5 +112,8 @@ def checkout(skus):
         item_price = get_price(item, quantity, offers)
         total_price += item_price
 
+    total_price += get_mix_offer_price(mix_cart)
+
     return total_price
+
 
