@@ -40,10 +40,15 @@ def get_mix_offer_price(mix_cart):
         for v in mix_cart.values():
             total_count += v
     mix_offer_cnt = total_count//3
-    no_offer =  total_count%3
     mix_price = mix_offer_cnt * 45
-    no_offer_price = no_offer * INVENTORY[item]['price']
-    return mix_price + no_offer_price
+
+    sum_skus = 0
+    for item in GROUP_SKUS:
+        sum_skus += item * mix_cart[item]
+    no_offer_skus = sum_skus[3*mix_offer_cnt:]
+    for sku in no_offer_skus:
+        mix_price +=  INVENTORY[sku]['price']
+    return mix_price 
 
 def get_free_items(sku):
     if 'free' in INVENTORY[sku]:
