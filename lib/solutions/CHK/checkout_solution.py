@@ -8,7 +8,37 @@ INVENTORY = {
     'C': {'price': 20},
     'D': {'price': 15},
     'E': {'price': 40},
-    'F': {'price': 10, 'free': {'sku': 'F', 'cnt': 2}}
+    'F': {'price': 10, 'free': {'sku': 'F', 'cnt': 2}},
+    'G': {'price': 20},
+    'H': {'price': 10, 'offer': [{'cnt': 5, 'price': 45}, {'cnt': 10, 'price': 80}]},
+    'I': {'price': 35},
+    'J': {'price': 60},
+    'K': {'price': 80, 'offer': [{'cnt': 2, 'price': 150}]},
+    'L': {'price': 90},
+    'M': {'price': 15, 'free': {'sku': 'N', 'cnt': 3}},
+    'N': {'price': 40},
+    'O': {'price': 10},
+    'P': {'price': 50, 'offer': [{'cnt': 5, 'price': 200}]},
+    'Q': {'price': 30, 'offer': [{'cnt': 3, 'price': 80}], 'free': {'sku': 'R', 'cnt': 3}},
+    'R': {'price': 50},
+    'S': {'price': 30},
+    'T': {'price': 20},
+    'U': {'price': 40, 'free': {'sku': 'U', 'cnt': 3}},
+    'V': {'price': 50, 'offer': [{'cnt': 2, 'price': 90}, {'cnt': 3, 'price': 130}]},
+    'W': {'price': 20},
+    'X': {'price': 90},
+    'Y': {'price': 10},
+    'Z': {'price': 50}
+
+
+
+
+
+
+
+
+
+
 }
 
 def get_free_items(sku):
@@ -71,4 +101,5 @@ def checkout(skus):
         total_price += item_price
 
     return total_price
+
 
