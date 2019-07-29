@@ -7,7 +7,8 @@ INVENTORY = {
     'B': {'price': 30, 'offer': [{'cnt': 2, 'price': 45}], 'free': {'sku': 'E', 'cnt': 2}},
     'C': {'price': 20},
     'D': {'price': 15},
-    'E': {'price': 40}
+    'E': {'price': 40},
+    'F': {'price': 10, 'free': {'sku': 'F', 'cnt': 2}}
 }
 
 def get_free_items(sku):
@@ -64,3 +65,4 @@ def checkout(skus):
         total_price += item_price
 
     return total_price
+
