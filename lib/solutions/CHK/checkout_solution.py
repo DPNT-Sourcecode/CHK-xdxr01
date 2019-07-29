@@ -1,5 +1,5 @@
 
-from collections import defaultdict
+from collections import Counter
 PRICES = {'A':50, 'B':30, 'C':20, 'D':15}
 OFFERED_QUANTITY = {'A':3, 'B':2}
 OFFERED_PRICES = {'A':130, 'B':45}
@@ -17,7 +17,7 @@ def checkout(skus):
             return -1
 
     total_price = 0
-    itemcount = defaultdict(int)
+    itemcount = Counter()
 
     for item in skus:
         if item in PRICES:
@@ -31,5 +31,6 @@ def checkout(skus):
         total_price += sameitems_price
 
     return total_price
+
 
 
