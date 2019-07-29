@@ -17,15 +17,14 @@ def checkout(skus):
     for sku in skus:
         if sku not in PRICES:
             return -1
-    #import pdb; pdb.set_trace()
+
     total_price = 0
     itemcount = Counter()
 
     for item in skus:
-        if item in PRICES:
-            itemcount[item] += 1
-        else:
-            return -1
+        itemcount[item] += 1
+
+    import pdb; pdb.set_trace()
     for item in itemcount:
         offercount = itemcount[item]//OFFERED_QUANTITY[item]
         nooffercount = itemcount[item]%OFFERED_QUANTITY[item]
@@ -33,6 +32,7 @@ def checkout(skus):
         total_price += sameitems_price
 
     return total_price
+
 
 
 
