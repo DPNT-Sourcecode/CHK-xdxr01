@@ -27,9 +27,9 @@ def get_price(item, quantity, offers):
     if offers:
         import pdb;  pdb.set_trace()
         for key in sorted(offers, key=itemgetter('cnt'), reverse = True):
-            bulk_offer_count = quantity//int(key)
-            bulk_offer_cost = bulk_offer_count * offers[key]
-            quantity = quantity%offers[int(key)]
+            bulk_offer_count = quantity//key['cnt']
+            bulk_offer_cost = bulk_offer_count * key['price']
+            quantity = quantity%offers[key['cnt']]
             final_cost += bulk_offer_cost
     no_offer_cost = quantity * INVENTORY[item]['price']
     final_cost += no_offer_cost
@@ -66,5 +66,3 @@ def checkout(skus):
     return total_price
 
 print(checkout('A'))
-
-
