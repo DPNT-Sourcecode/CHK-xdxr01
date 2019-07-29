@@ -16,18 +16,19 @@ def get_free_items(sku):
         return None
 
 def get_offers(item):
+    all_offers = {}
     if 'offer' in INVENTORY[item]:
-        return INVENTORY[item]['offer']
-    else:
-        return None
+        for item in INVENTORY[item]['offer']:
+            all_offers.update(item)
+    return all_offers
 
 def get_price(item, quantity, offers):
     final_cost = 0
     if offers:
-        for offer in offers:
-            bulk_offer_count = quantity//offer['cnt']
-            bulk_offer_cost = bulk_offer_count * offer['price']
-            quantity = quantity%offer['cnt']
+        for key in sorted(offers.keys()):
+            bulk_offer_count = quantity//key
+            bulk_offer_cost = bulk_offer_count * offers[key]
+            quantity = quantity%offers[key]
             final_cost += bulk_offer_cost
     no_offer_cost = quantity * INVENTORY[item]['price']
     final_cost += no_offer_cost
@@ -63,5 +64,4 @@ def checkout(skus):
         total_price += item_price
 
     return total_price
-
 
